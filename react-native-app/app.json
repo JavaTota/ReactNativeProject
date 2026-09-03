@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "react-native-app",
+    "name": "WeTravel",
     "slug": "react-native-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -37,6 +37,14 @@
           "dark": {
             "backgroundColor": "#000000"
           }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Choose a photo for your WeTravel journal.",
+          "cameraPermission": false,
+          "microphonePermission": false
         }
       ]
     ],
