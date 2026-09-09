@@ -40,14 +40,24 @@ const Context = createContext<{
   trips: Trip[];
   update: (fn: (s: State) => State) => void;
 } | null>(null);
-export function TravelProvider({ children }: PropsWithChildren) {
-  const [state, setState] = useState(initial);
+export function TravelProvider({
+  children,
+  accountId,
+}: PropsWithChildren<{ accountId?: string }>) {
+  const storageKey = accountId
+    ? `wetravel-account-v1:${accountId}`
+    : "wetravel-demo-v1";
+  const [state, setState] = useState(() =>
+    accountId
+      ? { ...initial, profile: { name: "Traveler", bio: "" } }
+      : initial,
+  );
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
   const queue = useRef(Promise.resolve());
   useEffect(() => {
     let mounted = true;
-    AsyncStorage.getItem("wetravel-demo-v1")
+    AsyncStorage.getItem(storageKey)
       .then((raw) => {
         if (!mounted || !raw) return;
         const saved = JSON.parse(raw);
@@ -71,19 +81,17 @@ export function TravelProvider({ children }: PropsWithChildren) {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [storageKey]);
   useEffect(() => {
     if (!ready) return;
     queue.current = queue.current
-      .then(() =>
-        AsyncStorage.setItem("wetravel-demo-v1", JSON.stringify(state)),
-      )
+      .then(() => AsyncStorage.setItem(storageKey, JSON.stringify(state)))
       .catch(() => {
         setError(
           "Changes are available in this session but could not be saved on this device.",
         );
       });
-  }, [state, ready]);
+  }, [state, ready, storageKey]);
   return (
     <Context.Provider
       value={{

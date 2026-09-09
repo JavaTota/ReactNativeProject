@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useClerk } from "@clerk/expo";
 import { Modal, Pressable, ScrollView, Share, View } from "react-native";
 import { router } from "expo-router";
 import { Button, Input, Photo, Row, Screen, Type } from "@/components/ui";
@@ -7,6 +8,8 @@ import { colors as c } from "@/constants/theme";
 import { useTravel } from "@/context/travel-store";
 import { tripSource } from "@/constants/trips";
 export default function Profile() {
+  const { signOut } = useClerk();
+  const [signingOut, setSigningOut] = useState(false);
   const { state, update, trips } = useTravel();
   const [tab, setTab] = useState("Grid Log");
   const [editing, setEditing] = useState(false);
@@ -24,6 +27,23 @@ export default function Profile() {
   const ids = ["amalfi", "marrakesh", "swiss", "bali", "temple", "bora"];
   return (
     <Screen active="Profile">
+      <View style={{ padding: 16 }}>
+        <Button
+          secondary
+          disabled={signingOut}
+          onPress={async () => {
+            setSigningOut(true);
+            try {
+              await signOut();
+            } catch {
+              setNotice("Could not log out. Please try again.");
+              setSigningOut(false);
+            }
+          }}
+        >
+          {signingOut ? "Logging out…" : "Log out"}
+        </Button>
+      </View>
       <View
         style={{
           padding: 24,

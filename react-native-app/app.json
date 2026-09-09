@@ -46,7 +46,9 @@
           "cameraPermission": false,
           "microphonePermission": false
         }
-      ]
+      ],
+      "@clerk/expo",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
