@@ -1,8 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import request from "supertest";
-import { createApp } from "../src/app.js";
-import { journeySchema, toJourney } from "../src/validation.js";
+import { createApp } from "../main.js";
+import { journeySchema } from "../schemas/journey.js";
+import { toJourney } from "../models/journey.js";
 
 const body = {
   title: "Italy",

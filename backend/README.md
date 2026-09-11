@@ -2,6 +2,8 @@
 
 An Express API backed by Supabase PostgreSQL and Storage. Clerk authenticates users. This folder runs separately from the Expo app; it does not change the frontend or migrate its existing AsyncStorage data automatically.
 
+The code is organized like FinSight-B, with feature routers, services, schemas, and shared configuration. Read [ARCHITECTURE.md](./ARCHITECTURE.md) for the file map, a request walkthrough, and instructions for replacing the earlier backend while keeping your `.env`.
+
 ## What is stored where
 
 | Data                                                      | Source of truth                                          |
