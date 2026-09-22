@@ -1,0 +1,1 @@
+"""WeTravel backend package."""
